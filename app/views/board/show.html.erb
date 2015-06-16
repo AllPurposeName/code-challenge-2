@@ -6,7 +6,7 @@
   <h1>Current Sprint</h1>
 </div>
 
-<div class="In Progress">
+<div id="In Progress">
   <h1>In Progress</h1>
   <% @tickets.each do |ticket| %>
     <%= ticket.title %>
@@ -19,8 +19,19 @@
 
 
 <div id="new-ticket">
-  <form action="/ticket" method="post" accept-charset="utf-8">
-   <input type="text" placeholder="New Title" name="Title" id="Title"/>
-   <p><input type="submit" value="Submit"></p>
- </form>
+  <form action="/tickets" method="post" accept-charset="utf-8">
+    <input type="text" placeholder="New Title" name="Title" id="Title"/>* required
+    <br>
+    <input type="text" placeholder="Optional Description" name="description" id="description"/>
+    <br>
+    Status:
+    <select name="status">
+      <option value="Backlog" selected="selected">Backlog</option>
+      <option value="Current Sprint">Current Sprint</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Done">Done</option>
+    </select>
+
+    <p><input type="submit" value="Submit"></p>
+  </form>
 </div>

@@ -66,4 +66,19 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
     assert_equal "/#{board.id}", current_path
     assert page.has_content?("Make Angular Work!"), "ticket should appear on the board page"
   end
+
+  def test_a_ticket_created_with_optional_fields_saves_normally
+    board = Board.create!(title: "Reader-Meter")
+
+    visit "/#{board.id}"
+    fill_in "Title", with: "Don't pivot pls"
+    fill_in "description", with: "Pivoting is so rough"
+    select "In Progress", from: "status"
+    assert_difference("Ticket.count", 1) do
+      click_link_or_button("Submit")
+    end
+    #within("#In Progress") do
+      assert page.has_content?("Don't pivot pls"), "ticket should still appear on the board page under the appropriate status"
+    #end
+  end
 end
