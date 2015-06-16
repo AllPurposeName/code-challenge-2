@@ -3,7 +3,7 @@ class CreateTickets < ActiveRecord::Migration
     create_table :tickets do |t|
       t.string :title
       t.text :description
-      t.string :status
+      t.string :status, default: "Backlog"
       t.belongs_to :board, index: true
 
       t.timestamps null: false

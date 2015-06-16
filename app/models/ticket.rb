@@ -1,3 +1,4 @@
 class Ticket < ActiveRecord::Base
-  belongs_to :board, inverse_of: :tickets
+  has_one :board, inverse_of: :tickets
+  validates :title, presence: true
 end
