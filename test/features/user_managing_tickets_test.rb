@@ -12,4 +12,17 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
       assert page.has_content?(board2.title), "the second board's title should appear"
     end
   end
+
+  def test_a_board_has_four_sections_for_tickets
+    board = Board.create!(title: "Dinner Dash")
+    expected_sections = ["Backlog", "Current Sprint", "In Progress", "Done"]
+
+    visit '/'
+    click_link_or_button(board.title)
+    assert_equal "/#{board.id}", current_path
+    expected_sections.each do |section|
+      assert page.has_content?(section), "section: #{section} should appear in a column"
+    end
+  end
+
 end
