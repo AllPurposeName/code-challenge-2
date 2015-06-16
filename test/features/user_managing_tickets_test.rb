@@ -40,7 +40,7 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
     ticket = board.tickets.create!(title: "Do all the things", description: "do it faster", status: "In Progress")
 
     visit "/#{board.id}"
-      assert page.has_content?(ticket.title), "it should display the ticket's title #{ticket.title}"
+    assert page.has_content?(ticket.title), "it should display the ticket's title #{ticket.title}"
   end
 
   def test_a_board_only_displays_its_tickets
@@ -53,5 +53,17 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
 
     visit "/#{board.id}"
     refute page.has_content?(ticket.title), "board one should not have access to the ticket"
+  end
+
+  def test_a_user_can_create_a_ticket_on_a_board
+    board = Board.create!(title: "PokeTeam")
+
+    visit "/#{board.id}"
+    fill_in "Title", with: "Make Angular Work!"
+    assert_difference("Ticket.count", 1) do
+      click_link_or_button("Submit")
+    end
+    assert_equal "/#{board.id}", current_path
+    assert page.has_content?("Make Angular Work!"), "ticket should appear on the board page"
   end
 end
