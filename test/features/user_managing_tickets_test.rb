@@ -34,4 +34,12 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
     assert page.has_content?("Board created successfully"), "flash message should appear"
     assert page.has_link?("Re-Pivot"), "link to the new board should be present"
   end
+
+  def test_a_board_has_tickets_a_user_can_view
+    board = Board.create!(title: "Dinner Dash")
+    ticket = Ticket.create!(title: "Do all the things", description: "do it faster", status: "In Progress")
+
+    visit "/#{board.id}"
+      assert page.has_content?(ticket.title), "it should display the ticket's title #{ticket.title}"
+  end
 end
