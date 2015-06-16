@@ -1,12 +1,11 @@
 class BoardController < ApplicationController
-
   def index
     @boards = Board.all
   end
 
   def show
     board = Board.find_by(id: params[:board_id])
-    @tickets = SectionedTicketsDecorator.decorate_collection(board.tickets)
+    @status_to_tickets = Status.groups_for(board.tickets)
   end
 
   def create
