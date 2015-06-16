@@ -77,8 +77,33 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
     assert_difference("Ticket.count", 1) do
       click_link_or_button("Submit")
     end
-    #within("#In Progress") do
+    within("#in-progress") do
       assert page.has_content?("Don't pivot pls"), "ticket should still appear on the board page under the appropriate status"
-    #end
+    end
+  end
+
+  def test_tickets_only_appear_in_the_section_matching_their_status
+    board = Board.create!(title: "Code Challenge 2")
+
+    ticket1 = board.tickets.create!(title: "Creating/Viewing Boards", status: "Done")
+    ticket2 = board.tickets.create!(title: "Creating/Viewing Tickets", status: "Done")
+    ticket3 = board.tickets.create!(title: "Manipulating Tickets", status: "In Progress")
+
+    visit "/#{board.id}"
+
+    within("#done") do
+      assert page.has_content?(ticket1.title), "the first two tickets should appear in Done"
+      assert page.has_content?(ticket2.title), "the first two tickets should appear in Done"
+      refute page.has_content?(ticket3.title), "the third ticket should NOT appear in Done"
+    end
+    within("#in-progress") do
+      refute page.has_content?(ticket1.title), "the first two tickets should NOT appear in In Progress"
+      refute page.has_content?(ticket2.title), "the first two tickets should NOT appear in In Progress"
+      assert page.has_content?(ticket3.title), "the first two tickets should appear in In Progress"
+    end
+  end
+
+  def test_a_ticket_can_change_sections
+
   end
 end

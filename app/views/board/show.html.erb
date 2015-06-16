@@ -1,20 +1,43 @@
-<div id="Backlog">
+<div id="backlog">
   <h1>Backlog</h1>
+  <% @tickets.each do |ticket| %>
+    <%= ticket.backlog_title %>
+    <% if ticket.backlog_link %>
+      <%= link_to "Move to Current Sprint", tickets_path(ticket, status: "Current Sprint"), method: :put %>
+    <% end %>
+  <% end %>
 </div>
 
-<div id="Current Sprint">
+<div id="current-sprint">
   <h1>Current Sprint</h1>
+  <% @tickets.each do |ticket| %>
+    <%= ticket.current_sprint_title %>
+    <% if ticket.current_sprint_link %>
+      <%= link_to "Move to Backlog", tickets_path(ticket, status: "Backlog"), method: :put %>
+      <%= link_to "Move to In Progress", tickets_path(ticket, status: "In Progress"), method: :put %>
+    <% end %>
+  <% end %>
 </div>
 
-<div id="In Progress">
+<div id="in-progress">
   <h1>In Progress</h1>
   <% @tickets.each do |ticket| %>
-    <%= ticket.title %>
+    <%= ticket.in_progress_title %>
+    <% if ticket.in_progress_link %>
+      <%= link_to "Move to Current Sprint", tickets_path(ticket, status: "Current Sprint"), method: :put %>
+      <%= link_to "Move to Done", tickets_path(ticket, status: "Done"), method: :put %>
     <% end %>
+  <% end %>
 </div>
 
-<div id="Done">
+<div id="done">
   <h1>Done</h1>
+  <% @tickets.each do |ticket| %>
+    <%= ticket.done_title %>
+    <% if ticket.done_link %>
+      <%= link_to "Move to In Progress", tickets_path(ticket, status: "In Progress"), method: :put %>
+    <% end %>
+  <% end %>
 </div>
 
 

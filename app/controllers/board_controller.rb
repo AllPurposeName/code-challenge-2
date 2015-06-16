@@ -6,7 +6,7 @@ class BoardController < ApplicationController
 
   def show
     board = Board.find_by(id: params[:board_id])
-    @tickets = board.tickets
+    @tickets = SectionedTicketsDecorator.decorate_collection(board.tickets)
   end
 
   def create
