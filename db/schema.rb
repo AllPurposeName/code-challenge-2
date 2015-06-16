@@ -23,8 +23,11 @@ ActiveRecord::Schema.define(version: 20150616161116) do
     t.string   "title"
     t.text     "description"
     t.string   "status"
+    t.integer  "board_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  add_index "tickets", ["board_id"], name: "index_tickets_on_board_id"
 
 end

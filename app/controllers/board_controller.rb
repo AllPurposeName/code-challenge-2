@@ -5,8 +5,8 @@ class BoardController < ApplicationController
   end
 
   def show
-    @tickets = Ticket.all
-
+    board = Board.find_by(id: params[:board_id])
+    @tickets = board.tickets
   end
 
   def create

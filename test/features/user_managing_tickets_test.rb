@@ -37,9 +37,21 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
 
   def test_a_board_has_tickets_a_user_can_view
     board = Board.create!(title: "Dinner Dash")
-    ticket = Ticket.create!(title: "Do all the things", description: "do it faster", status: "In Progress")
+    ticket = board.tickets.create!(title: "Do all the things", description: "do it faster", status: "In Progress")
 
     visit "/#{board.id}"
       assert page.has_content?(ticket.title), "it should display the ticket's title #{ticket.title}"
+  end
+
+  def test_a_board_only_displays_its_tickets
+    board = Board.create!(title: "Dinner Dash")
+    board2 = Board.create!(title: "The Pivot")
+    ticket = board2.tickets.create!(title: "Do all the things", description: "do it faster", status: "In Progress")
+
+    visit "/#{board2.id}"
+    assert page.has_content?(ticket.title), "board 2 should display the ticket normally"
+
+    visit "/#{board.id}"
+    refute page.has_content?(ticket.title), "board one should not have access to the ticket"
   end
 end

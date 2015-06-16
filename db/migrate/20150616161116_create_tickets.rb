@@ -4,6 +4,7 @@ class CreateTickets < ActiveRecord::Migration
       t.string :title
       t.text :description
       t.string :status
+      t.belongs_to :board, index: true
 
       t.timestamps null: false
     end
