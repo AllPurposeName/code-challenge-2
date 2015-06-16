@@ -104,6 +104,20 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
   end
 
   def test_a_ticket_can_change_sections
+    board = Board.create!(title: "Code Challenge 2")
 
+    ticket = board.tickets.create!(title: "Manipulating Tickets", status: "In Progress")
+
+    visit "/#{board.id}"
+
+    within("#current-sprint") do
+      refute page.has_content?(ticket.title), "ticket should have moved statuses"
+    end
+    within("#in-progress") do
+      click_link_or_button("Move to Current Sprint")
+    end
+    within("#current-sprint") do
+      assert page.has_content?(ticket.title), "ticket should have moved statuses"
+    end
   end
 end

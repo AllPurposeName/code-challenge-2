@@ -7,4 +7,10 @@ class TicketsController < ApplicationController
 
     redirect_to :back
   end
+
+  def update
+    ticket = Ticket.find_by(id: params[:format])
+    ticket.update(status: params[:status])
+    redirect_to :back
+  end
 end
