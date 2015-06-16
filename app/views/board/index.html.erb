@@ -3,3 +3,11 @@
     <%= link_to board.title, board_path(board) %>
   <% end %>
 </div>
+
+<br>
+<div id="new-board">
+  <form action="/" method="post" accept-charset="utf-8">
+   <input type="text" placeholder="New Title" name="Title" id="Title"/>
+   <p><input type="submit" value="Submit"></p>
+ </form>
+</div>

@@ -25,4 +25,13 @@ class UserManagingTicketsTest < ActiveSupport::TestCase
     end
   end
 
+  def test_user_can_create_a_board
+    visit '/'
+    fill_in "Title", with: "Re-Pivot"
+    assert_difference("Board.count", 1) do
+      click_link_or_button("Submit")
+    end
+    assert page.has_content?("Board created successfully"), "flash message should appear"
+    assert page.has_link?("Re-Pivot"), "link to the new board should be present"
+  end
 end
